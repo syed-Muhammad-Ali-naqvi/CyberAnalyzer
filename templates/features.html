@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌟 Features | CyberAnalyzer</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1055/1055646.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: linear-gradient(135deg, #1a1a2e 0%, #2a2a4e 100%);
+      --bg-light: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
+      --card-bg-dark: rgba(26, 26, 46, 0.4);
+      --card-bg-light: rgba(255, 255, 255, 0.9);
+      --card-border-dark: rgba(168, 85, 247, 0.2);
+      --card-border-light: rgba(0, 0, 0, 0.1);
+      --text-primary-dark: #e5e7eb;
+      --text-primary-light: #1f2937;
+      --text-secondary-dark: #d1d5db;
+      --text-secondary-light: #4b5563;
+      --nav-footer-bg-dark: rgba(31, 41, 55, 0.95);
+      --nav-footer-bg-light: rgba(255, 255, 255, 0.95);
+      --nav-text-dark: #e5e7eb;
+      --nav-text-light: #4b5563;
+      --nav-text-hover: #a855f7;
+      --button-bg: #a855f7;
+      --button-bg-hover: #9333ea;
+    }
+
+    body {
+      background: var(--bg-dark);
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.5s ease;
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+    }
+
+    body.light {
+      background: var(--bg-light);
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px rgba(168, 85, 247, 0.5); }
+      50% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.8); }
+      100% { box-shadow: 0 0 5px rgba(168, 85, 247, 0.5); }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .feature-card {
+      transition: all 0.3s ease;
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+    }
+
+    body.dark .feature-card {
+      background: var(--card-bg-dark);
+      border: 1px solid var(--card-border-dark);
+      color: var(--text-primary-dark);
+    }
+
+    body.light .feature-card {
+      background: var(--card-bg-light);
+      border: 1px solid var(--card-border-light);
+      color: var(--text-primary-light);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+      animation: glow 1.5s infinite;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent);
+      transition: 0.6s;
+    }
+
+    .feature-card:hover::before {
+      left: 100%;
+    }
+
+    .nav-link {
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    body.dark .nav-link {
+      color: var(--nav-text-dark);
+    }
+
+    body.light .nav-link {
+      color: var(--nav-text-light);
+    }
+
+    .nav-link:hover {
+      color: var(--nav-text-hover);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--nav-text-hover);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .accent-line {
+      width: 100px;
+      height: 5px;
+      background: linear-gradient(90deg, #a855f7, #ec4899);
+      margin: 0 auto 24px;
+      border-radius: 3px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .theme-toggle {
+      transition: all 0.5s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(360deg);
+    }
+
+    body.dark .nav-footer-bg {
+      background: var(--nav-footer-bg-dark);
+    }
+
+    body.light .nav-footer-bg {
+      background: var(--nav-footer-bg-light);
+    }
+
+    body.dark .text-primary {
+      color: var(--text-primary-dark);
+    }
+
+    body.light .text-primary {
+      color: var(--text-primary-light);
+    }
+
+    body.dark .text-secondary {
+      color: var(--text-secondary-dark);
+    }
+
+    body.light .text-secondary {
+      color: var(--text-secondary-light);
+    }
+
+    .icon-circle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div id="particles-js"></div>
+
+  <!-- Navigation -->
+  <nav class="nav-footer-bg sticky top-0 z-20 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex justify-between items-center">
+      <div class="flex items-center">
+        <span class="text-3xl font-extrabold text-primary flex items-center">
+          <span class="mr-3">🛡️</span> CyberAnalyzer
+        </span>
+      </div>
+      <div class="flex items-center space-x-8">
+        <a href="/" class="nav-link font-semibold text-lg">Home</a>
+        <a href="/features" class="nav-link font-semibold text-lg">Features</a>
+        <a href="/resources" class="nav-link font-semibold text-lg">Resources</a>
+        <a href="/contact" class="nav-link font-semibold text-lg">Contact</a>
+        <button id="theme-toggle" class="theme-toggle text-2xl" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Features Section -->
+  <section id="features" class="py-24">
+    <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-primary mb-6">
+        🌟 Why Choose CyberAnalyzer?
+      </h1>
+      <div class="accent-line"></div>
+      <p class="text-lg sm:text-xl text-center text-secondary max-w-3xl mx-auto mb-12">
+        Discover the unique strengths that make CyberAnalyzer the ultimate cybersecurity toolkit for professionals and enthusiasts alike.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="feature-card animate-fadeIn">
+          <div class="icon-circle text-2xl">⚡</div>
+          <h3 class="text-xl font-semibold text-primary mb-4">Real-Time Threat Detection</h3>
+          <p class="text-secondary">Leverage advanced algorithms to identify and analyze threats instantly, keeping you one step ahead of cybercriminals.</p>
+        </div>
+        <div class="feature-card animate-fadeIn" style="animation-delay: 0.1s;">
+          <div class="icon-circle text-2xl">🖥️</div>
+          <h3 class="text-xl font-semibold text-primary mb-4">Intuitive User Interface</h3>
+          <p class="text-secondary">Enjoy a seamless, user-friendly experience with our sleek, modern design optimized for all skill levels.</p>
+        </div>
+        <div class="feature-card animate-fadeIn" style="animation-delay: 0.2s;">
+          <div class="icon-circle text-2xl">🔒</div>
+          <h3 class="text-xl font-semibold text-primary mb-4">Robust Security Algorithms</h3>
+          <p class="text-secondary">Built with cutting-edge cryptographic and analytical tools to ensure maximum data protection and accuracy.</p>
+        </div>
+        <div class="feature-card animate-fadeIn" style="animation-delay: 0.3s;">
+          <div class="icon-circle text-2xl">📱</div>
+          <h3 class="text-xl font-semibold text-primary mb-4">Cross-Platform Accessibility</h3>
+          <p class="text-secondary">Access CyberAnalyzer on web, iOS, and Android with consistent performance across devices.</p>
+        </div>
+        <div class="feature-card animate-fadeIn" style="animation-delay: 0.4s;">
+          <div class="icon-circle text-2xl">🌐</div>
+          <h3 class="text-xl font-semibold text-primary mb-4">Global Threat Intelligence</h3>
+          <p class="text-secondary">Tap into real-time global data sources for comprehensive insights into emerging cyber threats.</p>
+        </div>
+        <div class="feature-card animate-fadeIn" style="animation-delay: 0.5s;">
+          <div class="icon-circle text-2xl">🚀</div>
+          <h3 class="text-xl font-semibold text-primary mb-4">Scalable Performance</h3>
+          <p class="text-secondary">Handle high-volume queries with optimized performance, ideal for both individual and enterprise use.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-16">
+    <div class="container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-primary mb-6">Ready to Secure Your Digital World?</h2>
+      <a href="/" class="px-8 py-4 bg-purple-600 text-white text-lg font-semibold rounded-lg cta-btn inline-flex items-center">
+        <span class="mr-2">🚀</span> Explore Tools Now
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="nav-footer-bg py-8">
+    <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-secondary text-sm">Built with 💻 by Muhammad Ali • © 2025 CyberAnalyzer</p>
+    </div>
+  </footer>
+
+  <script>
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 50, density: { enable: true, value_area: 1000 } },
+        color: { value: ['#a855f7', '#ec4899', '#10b981'] },
+        shape: { type: 'circle' },
+        opacity: { value: 0.4, random: true },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 100,
+          color: document.body.classList.contains('dark') ? '#6b7280' : '#9ca3af',
+          opacity: 0.3,
+          width: 1
+        },
+        move: { enable: true, speed: 1.2, direction: 'none', random: true }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+        modes: { repulse: { distance: 120, duration: 0.4 }, push: { particles_nb: 4 } }
+      },
+      retina_detect: true
+    });
+
+    document.querySelectorAll('.feature-card').forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.1}s`;
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      document.body.classList.toggle('light');
+      themeToggle.textContent = document.body.classList.contains('dark') ? '🌙' : '☀️';
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+      particlesJS('particles-js', {
+        particles: {
+          number: { value: 50, density: { enable: true, value_area: 1000 } },
+          color: { value: ['#a855f7', '#ec4899', '#10b981'] },
+          shape: { type: 'circle' },
+          opacity: { value: 0.4, random: true },
+          size: { value: 3, random: true },
+          line_linked: {
+            enable: true,
+            distance: 100,
+            color: document.body.classList.contains('dark') ? '#6b7280' : '#9ca3af',
+            opacity: 0.3,
+            width: 1
+          },
+          move: { enable: true, speed: 1.2, direction: 'none', random: true }
+        },
+        interactivity: {
+          detect_on: 'canvas',
+          events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+          modes: { repulse: { distance: 120, duration: 0.4 }, push: { particles_nb: 4 } }
+        },
+        retina_detect: true
+      });
+    });
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.classList.add(savedTheme);
+    themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+  </script>
+</body>
+</html>

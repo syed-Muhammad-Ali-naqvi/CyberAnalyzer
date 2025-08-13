@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🔎 WHOIS Lookup Tool | CyberAnalyzer</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1055/1055646.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: linear-gradient(135deg, #1a1a2e 0%, #2a2a4e 100%);
+      --bg-light: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
+      --card-bg-dark: rgba(26, 26, 46, 0.4);
+      --card-bg-light: rgba(255, 255, 255, 0.9);
+      --card-border-dark: rgba(168, 85, 247, 0.2);
+      --card-border-light: rgba(0, 0, 0, 0.1);
+      --text-primary-dark: #e5e7eb;
+      --text-primary-light: #1f2937;
+      --text-secondary-dark: #d1d5db;
+      --text-secondary-light: #4b5563;
+      --nav-footer-bg-dark: rgba(31, 41, 55, 0.95);
+      --nav-footer-bg-light: rgba(255, 255, 255, 0.95);
+      --nav-text-dark: #e5e7eb;
+      --nav-text-light: #4b5563;
+      --nav-text-hover: #a855f7;
+      --button-bg: #a855f7;
+      --button-bg-hover: #9333ea;
+      --error-bg-dark: rgba(248, 113, 113, 0.2);
+      --error-bg-light: rgba(254, 226, 226, 0.9);
+      --safe-bg-dark: rgba(34, 197, 94, 0.2);
+      --safe-bg-light: rgba(209, 250, 229, 0.9);
+    }
+
+    body {
+      background: var(--bg-dark);
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.5s ease;
+    }
+
+    body.dark {
+      background: var(--bg-dark);
+    }
+
+    body.light {
+      background: var(--bg-light);
+    }
+
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px rgba(168, 85, 247, 0.5); }
+      50% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.8); }
+      100% { box-shadow: 0 0 5px rgba(168, 85, 247, 0.5); }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .tool-container {
+      transition: all 0.3s ease;
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      padding: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    body.dark .tool-container {
+      background: var(--card-bg-dark);
+      border: 1px solid var(--card-border-dark);
+      color: var(--text-primary-dark);
+    }
+
+    body.light .tool-container {
+      background: var(--card-bg-light);
+      border: 1px solid var(--card-border-light);
+      color: var(--text-primary-light);
+    }
+
+    .tool-container:hover {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+      animation: glow 1.5s infinite;
+    }
+
+    .tool-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent);
+      transition: 0.6s;
+    }
+
+    .tool-container:hover::before {
+      left: 100%;
+    }
+
+    .nav-link {
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    body.dark .nav-link {
+      color: var(--nav-text-dark);
+    }
+
+    body.light .nav-link {
+      color: var(--nav-text-light);
+    }
+
+    .nav-link:hover {
+      color: var(--nav-text-hover);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--nav-text-hover);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .accent-line {
+      width: 100px;
+      height: 5px;
+      background: linear-gradient(90deg, #a855f7, #ec4899);
+      margin: 0 auto 24px;
+      border-radius: 3px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .input-focus {
+      transition: all 0.3s ease;
+      border-radius: 8px;
+    }
+
+    body.dark .input-focus {
+      background: rgba(31, 41, 55, 0.8);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: var(--text-primary-dark);
+    }
+
+    body.light .input-focus {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      color: var(--text-primary-light);
+    }
+
+    .input-focus:focus {
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+      border-color: #a855f7;
+    }
+
+    .input-focus::placeholder {
+      color: var(--text-secondary-dark);
+    }
+
+    body.light .input-focus::placeholder {
+      color: var(--text-secondary-light);
+    }
+
+    .lookup-btn {
+      transition: all 0.3s ease;
+    }
+
+    .lookup-btn:hover {
+      transform: scale(1.05);
+      background: var(--button-bg-hover);
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.5);
+    }
+
+    .error-card {
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    body.dark .error-card {
+      background: var(--error-bg-dark);
+      border: 1px solid rgba(248, 113, 113, 0.4);
+      color: #fecaca;
+    }
+
+    body.light .error-card {
+      background: var(--error-bg-light);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      color: #b91c1c;
+    }
+
+    .result-card {
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    body.dark .result-card {
+      background: rgba(46, 46, 76, 0.5);
+      border: 1px solid var(--card-border-dark);
+    }
+
+    body.light .result-card {
+      background: rgba(243, 244, 246, 0.9);
+      border: 1px solid var(--card-border-light);
+    }
+
+    .result-card:hover, .error-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .info-item {
+      margin-bottom: 12px;
+    }
+
+    .label {
+      font-weight: 600;
+      color: var(--text-secondary-dark);
+    }
+
+    body.light .label {
+      color: var(--text-secondary-light);
+    }
+
+    .value {
+      color: var(--text-primary-dark);
+    }
+
+    body.light .value {
+      color: var(--text-primary-light);
+    }
+
+    .domain-highlight {
+      color: #a855f7;
+    }
+
+    body.light .domain-highlight {
+      color: #9333ea;
+    }
+
+    .safe {
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    .danger {
+      color: #ef4444;
+      font-weight: 600;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-top: 8px;
+      color: var(--text-secondary-dark);
+    }
+
+    body.light ul {
+      color: var(--text-secondary-light);
+    }
+
+    .theme-toggle {
+      transition: all 0.5s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: rotate(360deg);
+    }
+
+    body.dark .nav-footer-bg {
+      background: var(--nav-footer-bg-dark);
+    }
+
+    body.light .nav-footer-bg {
+      background: var(--nav-footer-bg-light);
+    }
+
+    body.dark .text-primary {
+      color: var(--text-primary-dark);
+    }
+
+    body.light .text-primary {
+      color: var(--text-primary-light);
+    }
+
+    body.dark .text-secondary {
+      color: var(--text-secondary-dark);
+    }
+
+    body.light .text-secondary {
+      color: var(--text-secondary-light);
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div id="particles-js"></div>
+
+  <!-- Navigation -->
+  <nav class="nav-footer-bg sticky top-0 z-20 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex justify-between items-center">
+      <div class="flex items-center">
+        <span class="text-3xl font-extrabold text-primary flex items-center">
+          <span class="mr-3">🛡️</span> CyberAnalyzer
+        </span>
+      </div>
+      <div class="flex items-center space-x-8">
+        <a href="/" class="nav-link font-semibold text-lg">Home</a>
+        <a href="/features" class="nav-link font-semibold text-lg">Features</a>
+        <a href="/resources" class="nav-link font-semibold text-lg">Resources</a>
+        <a href="/contact" class="nav-link font-semibold text-lg">Contact</a>
+        <button id="theme-toggle" class="theme-toggle text-2xl" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Section -->
+  <section id="home" class="py-24">
+    <div class="container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 animate-fadeIn">
+      <div class="tool-container">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-center text-primary mb-6 flex items-center justify-center">
+          <span class="mr-3">🔎</span> WHOIS Lookup Tool
+        </h1>
+        <div class="accent-line"></div>
+        <p class="text-lg sm:text-xl text-center text-secondary mb-8 max-w-2xl mx-auto">
+          Retrieve detailed WHOIS information for any domain name.
+        </p>
+        <form method="POST" class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
+          <input
+            type="text"
+            name="domain"
+            placeholder="Enter domain (e.g., example.com)"
+            required
+            class="w-full sm:w-3/5 p-4 text-lg input-focus"
+          >
+          <button
+            type="submit"
+            class="px-8 py-4 bg-purple-600 text-white text-lg font-semibold rounded-lg lookup-btn flex items-center"
+          >
+            <span class="mr-2">🔎</span> Lookup
+          </button>
+        </form>
+
+        {% if result %}
+          {% if result.error %}
+          <div class="error-card mt-8 animate-fadeIn">
+            <p class="text-lg font-semibold danger">⚠️ Error: {{ result.error }}</p>
+          </div>
+          {% else %}
+          <div class="result-card mt-8 animate-fadeIn">
+            <h2 class="text-xl font-semibold text-primary mb-4">
+              🔎 WHOIS Report for: <span class="domain-highlight">{{ result.domain_name or 'Unknown' }}</span>
+            </h2>
+            <div class="space-y-4">
+              <div class="info-item">
+                <span class="label">Registrar:</span> <span class="value">{{ result.registrar or 'N/A' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Created:</span> <span class="value">{{ result.creation_date or 'N/A' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Expires:</span> <span class="value">{{ result.expiration_date or 'N/A' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Updated:</span> <span class="value">{{ result.updated_date or 'N/A' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Domain Age:</span> <span class="value">{{ result.age or 'N/A' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Organization:</span> <span class="value">{{ result.organization or 'N/A' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Country:</span> <span class="value">{{ result.country or 'N/A' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Emails:</span> <span class="value">{{ result.emails or 'N/A' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Name Servers:</span>
+                <ul>
+                  {% for ns in result.name_servers.split(", ") %}
+                    <li>{{ ns }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="info-item">
+                <span class="label">Status:</span>
+                <ul>
+                  {% for s in result.status.split(", ") %}
+                    <li>{{ s }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="info-item">
+                <span class="label">DNSSEC:</span> <span class="value">{{ result.dnssec or 'N/A' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Suspicious?</span>
+                <span class="{{ 'danger' if result.suspicious else 'safe' }}">
+                  {{ 'Yes' if result.suspicious else 'No' }}
+                </span>
+              </div>
+              <div class="info-item">
+                <span class="label">Risk Analysis:</span>
+                <ul>
+                  {% for risk in result.risk_analysis %}
+                    <li>{{ risk }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="nav-footer-bg py-8">
+    <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-secondary text-sm">Built with 💻 by Muhammad Ali • © 2025 CyberAnalyzer</p>
+    </div>
+  </footer>
+
+  <script>
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 50, density: { enable: true, value_area: 1000 } },
+        color: { value: ['#a855f7', '#ec4899', '#10b981'] },
+        shape: { type: 'circle' },
+        opacity: { value: 0.4, random: true },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 100,
+          color: document.body.classList.contains('dark') ? '#6b7280' : '#9ca3af',
+          opacity: 0.3,
+          width: 1
+        },
+        move: { enable: true, speed: 1.2, direction: 'none', random: true }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+        modes: { repulse: { distance: 120, duration: 0.4 }, push: { particles_nb: 4 } }
+      },
+      retina_detect: true
+    });
+
+    document.querySelectorAll('.result-card, .error-card, .info-item').forEach((element, index) => {
+      element.style.animationDelay = `${index * 0.1}s`;
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      document.body.classList.toggle('light');
+      themeToggle.textContent = document.body.classList.contains('dark') ? '🌙' : '☀️';
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+      particlesJS('particles-js', {
+        particles: {
+          number: { value: 50, density: { enable: true, value_area: 1000 } },
+          color: { value: ['#a855f7', '#ec4899', '#10b981'] },
+          shape: { type: 'circle' },
+          opacity: { value: 0.4, random: true },
+          size: { value: 3, random: true },
+          line_linked: {
+            enable: true,
+            distance: 100,
+            color: document.body.classList.contains('dark') ? '#6b7280' : '#9ca3af',
+            opacity: 0.3,
+            width: 1
+          },
+          move: { enable: true, speed: 1.2, direction: 'none', random: true }
+        },
+        interactivity: {
+          detect_on: 'canvas',
+          events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+          modes: { repulse: { distance: 120, duration: 0.4 }, push: { particles_nb: 4 } }
+        },
+        retina_detect: true
+      });
+    });
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.body.classList.add(savedTheme);
+    themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+  </script>
+</body>
+</html>

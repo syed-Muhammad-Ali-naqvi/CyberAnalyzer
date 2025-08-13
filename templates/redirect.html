@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirect Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 400px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 90%;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3498db;
+        }
+
+        .report {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 600px;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2980b9;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Redirect Analyzer Tool</h1>
+
+    <form method="POST" action="/redirect">
+        <label for="url">Enter a URL to Analyze</label><br><br>
+        <input type="text" name="url" required><br><br>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if result %}
+        <div class="report">
+            {% if result.final_url %}
+                <h3>🔗 Redirect Report</h3>
+                <p><strong>Final URL:</strong> {{ result.final_url }}</p>
+                <p><strong>Redirect Chain:</strong></p>
+                <ul>
+                    {% for r in result.redirects %}
+                        <li>{{ r }}</li>
+                    {% endfor %}
+                </ul>
+                <p><strong>Suspicious:</strong> {{ result.suspicious }}</p>
+                <p><strong>Analysis:</strong> {{ result.reason }}</p>
+            {% else %}
+                <p>No redirects detected. The URL responded directly.</p>
+            {% endif %}
+            {% if result.suspicious == False %}
+                <p><strong>Analysis:</strong>No URL detected. The URL responded directly.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <br><br>
+    <a href="/">⬅️ Back to Home</a>
+
+</body>
+</html>
