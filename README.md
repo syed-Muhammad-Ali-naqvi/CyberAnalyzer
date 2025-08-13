@@ -13,6 +13,14 @@ It provides modules for threat analysis, log inspection, and vulnerability asses
 ## Requirements
 - Python 3.9+
 - Flask
+- dnspython==2.5.0
+- bcrypt==4.0.0
+- whois==1.2.12
+- tldextract==3.4.0
+- cryptography==41.0.3
+- requests==2.31.0
+- python-dateutil==2.8.2
+
 
 ## Installation
 1. Clone the repository:
